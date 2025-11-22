@@ -56,6 +56,14 @@ class WorkflowAPI {
             method: 'POST',
         });
     }
+
+    // Add to frontend/js/api.js
+    async sendEmail(to, subject, body) {
+    return this.request('/send-email', {
+        method: 'POST',
+        body: JSON.stringify({ to_email: to, subject, body }),
+    });
+}
 }
 
 // Create global API instance

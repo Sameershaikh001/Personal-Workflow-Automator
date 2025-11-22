@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 import os
 import json
+from services.email_service import EmailService
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -52,6 +53,17 @@ def create_workflow():
 @app.route('/api/health')
 def health():
     return jsonify({"status": "healthy", "message": "Server is running!"})
+
+@app.route('/api/send-email', methods=['POST'])
+def send_email():
+    data = request.get_json()
+    email_service = EmailService()
+    result = email_service.send_email(
+        data['to_email'],
+        data['subject'], 
+        data['body']
+    )
+    return jsonify(result)
 
 if __name__ == '__main__':
     print("🚀 Starting Workflow Automator...")
